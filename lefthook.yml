@@ -1,0 +1,10 @@
+assert_lefthook_installed: true
+pre-commit:
+  commands:
+    lint:
+      run: pnpm run lint
+pre-push:
+  commands:
+    eslint:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: pnpm eslint --cache --fix
