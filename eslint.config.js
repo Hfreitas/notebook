@@ -1,13 +1,15 @@
 import js from "@eslint/js";
-import globals from "globals";
+import stylistic from "@stylistic/eslint-plugin";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
+import eslintPluginImportX from "eslint-plugin-import-x";
+import node from "eslint-plugin-n";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
-import tseslint from "typescript-eslint";
-import node from "eslint-plugin-n";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
-import stylistic from "@stylistic/eslint-plugin";
-import eslintPluginImportX from "eslint-plugin-import-x";
-import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import tsParser from "@typescript-eslint/parser";
+import pluginRouter from "@tanstack/eslint-plugin-router";
 
 export default tseslint.config(
   { ignores: ["dist", "eslint.config.js", "src/routeTree.gen.ts"] },
@@ -15,8 +17,6 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommendedTypeChecked,
-      eslintPluginImportX.flatConfigs.recommended,
-      eslintPluginImportX.flatConfigs.typescript,
       node.configs["flat/recommended-module"],
       eslintPluginUnicorn.configs.recommended,
       stylistic.configs.customize({
@@ -24,17 +24,19 @@ export default tseslint.config(
         quotes: "double",
         semi: true,
       }),
+      ...pluginRouter.configs['flat/recommended'],
     ],
     files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
-      globals: globals.browser,
-      parser: tseslint.parser,
+      globals: {
+        ...globals.browser,
+      },
+      parser: tsParser,
       parserOptions: {
-        project: "./tsconfig.eslint.json",
-        parser: tseslint.parser,
         projectService: true,
+        parser: tsParser,
         tsconfigRootDir: import.meta.dirname,
       },
       globals: {
@@ -46,16 +48,7 @@ export default tseslint.config(
       "react-refresh": reactRefresh,
       "@typescript-eslint": tseslint.plugin,
       "@stylistic": stylistic,
-      import: eslintPluginImportX,
       n: node,
-    },
-    settings: {
-      "import/resolver-next": [
-        createTypeScriptImportResolver({
-          alwaysTryTypes: true,
-          project: "./tsconfig.eslint.json",
-        }),
-      ],
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -382,20 +375,34 @@ export default tseslint.config(
           return: "parens-new-line",
         },
       ],
+    },
+  },
+  {
+    ...eslintPluginImportX.flatConfigs.recommended,
+    ...eslintPluginImportX.flatConfigs.typescript,
+    settings: {
+      "import-x/resolver-next": [
+        createTypeScriptImportResolver({
+          alwaysTryTypes: true,
+          project: "./tsconfig.json",
+        }),
+      ],
+    },
+    rules: {
       /** Bans the use of inline type-only markers for named imports */
-      "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+      "import-x/consistent-type-specifier-style": ["error", "prefer-top-level"],
       /** Reports any imports that come after non-import statements */
-      "import/first": "error",
+      "import-x/first": "error",
       /** Stylistic preference */
-      "import/newline-after-import": "error",
+      "import-x/newline-after-import": "error",
       /** No require() or module.exports */
-      "import/no-commonjs": "error",
+      "import-x/no-commonjs": "error",
       /** No import loops */
-      "import/no-cycle": "error",
+      "import-x/no-cycle": "error",
       /** Reports if a resolved path is imported more than once */
-      "import/no-duplicates": "error",
+      "import-x/no-duplicates": "error",
       /** Stylistic preference */
-      "import/order": [
+      "import-x/order": [
         "error",
         {
           groups: [
@@ -411,5 +418,5 @@ export default tseslint.config(
         },
       ],
     },
-  },
+  }
 );
