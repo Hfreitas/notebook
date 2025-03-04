@@ -1,5 +1,7 @@
 import js from "@eslint/js";
 import stylistic from "@stylistic/eslint-plugin";
+import pluginRouter from "@tanstack/eslint-plugin-router";
+import tsParser from "@typescript-eslint/parser";
 import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
 import eslintPluginImportX from "eslint-plugin-import-x";
 import node from "eslint-plugin-n";
@@ -8,8 +10,6 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import tsParser from "@typescript-eslint/parser";
-import pluginRouter from "@tanstack/eslint-plugin-router";
 
 export default tseslint.config(
   { ignores: ["dist", "eslint.config.js", "src/routeTree.gen.ts"] },
@@ -24,7 +24,7 @@ export default tseslint.config(
         quotes: "double",
         semi: true,
       }),
-      ...pluginRouter.configs['flat/recommended'],
+      ...pluginRouter.configs["flat/recommended"],
     ],
     files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
     languageOptions: {
@@ -375,6 +375,12 @@ export default tseslint.config(
           return: "parens-new-line",
         },
       ],
+      "unicorn/prevent-abbreviations": [
+        "error",
+        {
+          ignore: ["props", "Props"],
+        },
+      ],
     },
   },
   {
@@ -418,5 +424,5 @@ export default tseslint.config(
         },
       ],
     },
-  }
+  },
 );
