@@ -1,14 +1,19 @@
-import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import {
+  HeadContent,
+  Outlet,
+  createRootRouteWithContext,
+} from "@tanstack/react-router";
 
 import type { AppRouterContext } from "@/shared/providers/router/types";
 
+import { seo } from "@/shared/lib/helpers/seo";
 import { DevtoolsProvider } from "@/shared/providers/devtools/provider";
-import { seo } from "@/shared/helpers/seo";
 import globalCss from "@/shared/styles/global.css?url";
 
 function Root() {
   return (
     <>
+      <HeadContent />
       <Outlet />
       <DevtoolsProvider />
     </>
@@ -25,17 +30,18 @@ export const Route = createRootRouteWithContext<AppRouterContext>()({
         name: "viewport",
         content: "width=device-width, initial-scale=1",
       },
+      { name: "theme-color", content: "#ffffff" },
       ...seo({
-        title: "React Tanstack Router Template",
-        description: "React SPA Starter",
+        title: "Student Notebook",
+        description: "Note taking for students",
       }),
     ],
     links: [
       { rel: "stylesheet", href: globalCss },
       {
         rel: "apple-touch-icon",
-        sizes: "180x180",
-        href: "/apple-touch-icon.png",
+        sizes: "192x192",
+        href: "/logo192.png",
       },
       {
         href: "/logo192.png",
@@ -49,7 +55,7 @@ export const Route = createRootRouteWithContext<AppRouterContext>()({
         sizes: "512x512",
         rel: "icon",
       },
-      { rel: "manifest", href: "/manifest.json", color: "#fffff" },
+      { rel: "manifest", href: "/manifest.json", color: "#ffffff" },
       { rel: "icon", href: "/favicon.ico" },
     ],
   }),

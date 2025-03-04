@@ -10,8 +10,8 @@ import { routeTree } from "@/routeTree.gen";
 
 import { queryClient } from "@/shared/providers/query-client/client";
 import "@/shared/styles/global.css";
-import { DefaultCatchBoundary } from "@/shared/components/default-catch-boundary.tsx";
-import { NotFound } from "@/shared/components/not-found.tsx";
+import { DefaultCatchBoundary } from "@/widgets/default-catch-boundary";
+import { NotFound } from "@/widgets/not-found";
 
 function createRouter() {
   return routerWithQueryClient(

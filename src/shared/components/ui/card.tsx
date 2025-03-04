@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@/shared/helpers/class-names";
+import { cn } from "@/shared/lib/helpers/class-names";
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -67,9 +67,9 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
 
 export {
   Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
   CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 };

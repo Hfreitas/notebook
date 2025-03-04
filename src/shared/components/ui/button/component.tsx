@@ -3,7 +3,7 @@ import * as React from "react";
 import { buttonVariants } from "./variants";
 import type { VariantProps } from "class-variance-authority";
 
-import { cn } from "@/shared/helpers/class-names";
+import { cn } from "@/shared/lib/helpers/class-names";
 
 export type ButtonProps = React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
