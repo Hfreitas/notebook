@@ -1,14 +1,21 @@
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 
-import { Header } from "@/shared/components/header.tsx";
+import type { AppRouterContext } from "@/shared/providers/router/types";
+
 import { DevtoolsProvider } from "@/shared/providers/devtools/provider";
 import { seo } from "@/shared/helpers/seo";
 import globalCss from "@/shared/styles/global.css?url";
-import type { QueryClient } from "@tanstack/react-query";
 
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient;
-}>()({
+function Root() {
+  return (
+    <>
+      <Outlet />
+      <DevtoolsProvider />
+    </>
+  );
+}
+
+export const Route = createRootRouteWithContext<AppRouterContext>()({
   head: () => ({
     meta: [
       {
@@ -46,11 +53,5 @@ export const Route = createRootRouteWithContext<{
       { rel: "icon", href: "/favicon.ico" },
     ],
   }),
-  component: () => (
-    <>
-      <Header />
-      <Outlet />
-      <DevtoolsProvider />
-    </>
-  ),
+  component: Root,
 });

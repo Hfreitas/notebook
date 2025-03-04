@@ -1,6 +1,10 @@
-import { createRouter as createTanStackRouter } from "@tanstack/react-router";
+import {
+  RouterProvider as TanStackRouterProvider,
+  createRouter as createTanStackRouter,
+} from "@tanstack/react-router";
 import { routerWithQueryClient } from "@tanstack/react-router-with-query";
 
+import { useAuth, useClerk } from "@clerk/clerk-react";
 // Import the generated route tree
 import { routeTree } from "@/routeTree.gen";
 
@@ -9,7 +13,7 @@ import "@/shared/styles/global.css";
 import { DefaultCatchBoundary } from "@/shared/components/default-catch-boundary.tsx";
 import { NotFound } from "@/shared/components/not-found.tsx";
 
-export function createRouter() {
+function createRouter() {
   return routerWithQueryClient(
     createTanStackRouter({
       routeTree,
@@ -21,9 +25,22 @@ export function createRouter() {
       defaultNotFoundComponent: () => <NotFound />,
       context: {
         queryClient,
+        isSignedIn: false,
+        auth: undefined,
       },
     }),
     queryClient,
+  );
+}
+
+export function RouterProvider() {
+  const router = createRouter();
+
+  const { isSignedIn } = useAuth();
+  const auth = useClerk();
+
+  return (
+    <TanStackRouterProvider router={router} context={{ isSignedIn, auth }} />
   );
 }
 

@@ -1,28 +1,28 @@
-import { RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 // Import the generated route tree
 
 import "@/shared/styles/global.css";
-import { reportWebVitals } from "@/shared/helpers/report-web-vitals.ts";
+import { reportWebVitals } from "@/shared/helpers/report-web-vitals";
 
-import { createRouter } from "@/shared/providers/router/index.tsx";
+import { RouterProvider } from "@/shared/providers/router/provider";
 import { QueryProvider } from "@/shared/providers/query-client/provider";
+import { AuthProvider } from "@/shared/providers/auth/provider";
 
 // Render the app
 // eslint-disable-next-line unicorn/prefer-query-selector
 const rootElement = document.getElementById("app");
 if (rootElement && !rootElement.innerHTML) {
-  const router = createRouter();
-
   const root = createRoot(rootElement);
 
   root.render(
     <StrictMode>
-      <QueryProvider>
-        <RouterProvider router={router} />
-      </QueryProvider>
+      <AuthProvider>
+        <QueryProvider>
+          <RouterProvider />
+        </QueryProvider>
+      </AuthProvider>
     </StrictMode>,
   );
 }
