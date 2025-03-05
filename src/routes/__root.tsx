@@ -9,14 +9,15 @@ import type { AppRouterContext } from "@/shared/providers/router/types";
 import { seo } from "@/shared/lib/helpers/seo";
 import { DevtoolsProvider } from "@/shared/providers/devtools/provider";
 import globalCss from "@/shared/styles/global.css?url";
+import { MainLayout } from "@/widgets/layouts/main/layout";
 
 function Root() {
   return (
-    <>
+    <MainLayout>
       <HeadContent />
       <Outlet />
       <DevtoolsProvider />
-    </>
+    </MainLayout>
   );
 }
 
